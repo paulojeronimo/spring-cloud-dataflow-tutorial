@@ -3,8 +3,19 @@ Paulo Jerônimo <paulojeronimo@gmail.com>; {localdatetime}
 :toc:
 :icons: font
 
+ifdef::env-github[]
+:uri-published-html: https://paulojeronimo.github.io/spring-cloud-dataflow-tutorial/index.html
+:uri-asciidoc: https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/
+:uri-vim: https://www.vim.org
+:uri-gradle: https://gradle.com
+:vim: {uri-vim}[Vim]
+:gradle: {uri-gradle}[Gradle]
+:asciidoc: {uri-asciidoc}[AsciiDoc]
+endif::[]
+ifndef::env-github[]
 include::src/docs/asciidoc/uris.adoc[]
 include::src/docs/asciidoc/definitions.adoc[]
+endif::[]
 
 This is the source code of the document {uri-published-html}["My steps to learn about Spring Cloud Data Flow"] written in {Asciidoc} format.
 
