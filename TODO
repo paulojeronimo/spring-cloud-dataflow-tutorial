@@ -1,0 +1,4 @@
+Exclude images directory from build/pdf generation @Gradle
+Configure the name of generated pdf to spring-cloud-dataflow-tutorial @Gradle
+Configure @Gradle to publish on @GitHubPages and, after that, remove the publish Bash script
+Add lab3.adoc

@@ -1,0 +1,38 @@
+// URIs
+
+// Tools
+:uri-vim: https://www.vim.org
+:uri-gradle: https://gradle.com
+:uri-github-pages: https://pages.github.com
+:uri-asciidoc: https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/
+:uri-docker: https://www.docker.com/
+:uri-docker-compose: https://docs.docker.com/compose/
+:uri-pivotal-cloud-foundry: https://pivotal.io/platform
+:uri-reference-guide: https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/
+:uri-quick-start: https://cloud.spring.io/spring-cloud-dataflow
+:uri-kafka: https://kafka.apache.org/
+:uri-zookeeper: https://zookeeper.apache.org/
+:uri-mysql: https://www.mysql.com/
+:uri-rabbitmq: https://www.rabbitmq.com/
+:uri-redis: https://redis.io/
+
+// Spring
+:uri-spring-cloud-dataflow: https://github.com/spring-cloud/spring-cloud-dataflow
+:uri-spring-cloud-dataflow-server-cloudfoundry: https://github.com/spring-cloud/spring-cloud-dataflow-server-cloudfoundry
+:uri-spring-cloud-dataflow-server-cloudfoundry-doc: http://docs.spring.io/spring-cloud-dataflow-server-cloudfoundry/docs/1.4.0.RELEASE/reference/htmlsingle
+:uri-spring-cloud-dataflow-shell: https://github.com/spring-cloud/spring-cloud-dataflow-shell
+:uri-spring-cloud-dataflow-samples-docs: https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle
+
+// This document
+// Source code
+:uri-paulojeronimo-github: https://github.com/paulojeronimo
+:uri-source-code: {uri-paulojeronimo-github}/spring-cloud-dataflow-tutorial
+:uri-readme: {uri-source-code}/blob/master/README.adoc
+// Published versions
+:uri-published: https://paulojeronimo.github.io/spring-cloud-dataflow-tutorial
+:uri-published-html: {uri-published}/index.html
+:uri-published-pdf: {uri-published}/spring-cloud-dataflow-tutorial.pdf
+// Generated versions
+:uri-generated: .
+:uri-generated-html: {uri-generated}/index.html
+:uri-generated-pdf: {uri-generated}/spring-cloud-dataflow-tutorial.pdf

@@ -1,0 +1,160 @@
+[[lab1]]
+= Lab 1: {lab1-desc}
+
+For me, the best way to start learning a new technology is by running all the stuff related to them inside a {docker} container.
+By this way, I can abstract myself about the related installation procedures and go directly to the point.
+
+So, I started my labs by following the steps on the {quick-start-page}.
+These steps use Docker and {DockerCompose}.
+
+== Step 1 - Download docker-compose.yml
+
+My fist step was download the `docker-compose.yml` file:
+
+----
+wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v1.4.0.RELEASE/spring-cloud-dataflow-server-local/docker-compose.yml
+----
+
+By default, this file is configured to use {Kafka} and {Zookeeper}:
+
+----
+$ cat docker-compose.yml
+version: '3'
+
+services:
+  kafka:
+    image: wurstmeister/kafka:0.10.1.0
+    expose:
+      - "9092"
+    environment:
+      - KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+  zookeeper:
+    image: wurstmeister/zookeeper
+    expose:
+      - "2181"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=zookeeper
+  dataflow-server:
+    image: springcloud/spring-cloud-dataflow-server-local:1.4.0.RELEASE
+    container_name: dataflow-server
+    ports:
+      - "9393:9393"
+    environment:
+      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092
+      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=zookeeper:2181
+    depends_on:
+      - kafka
+  app-import:
+    image: alpine:3.7
+    depends_on:
+      - dataflow-server
+    command: >
+      /bin/sh -c "
+        while ! nc -z dataflow-server 9393;
+        do
+          sleep 1;
+        done;
+        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Celsius-SR1-stream-applications-kafka-10-maven&force=true';
+        echo 'Stream apps imported'
+        wget -qO- 'http://dataflow-server:9393/apps'  --post-data='uri=http://bit.ly/Clark-GA-task-applications-maven&force=true';
+        echo 'Task apps imported'"
+----
+
+I could also change these settings to use {RabbitMQ}, {MySQL}, and {Redis}.
+The steps for this task are described in the topic {uri-reference-guide}#getting-started-customizing-spring-cloud-dataflow-docker["Docker Compose Customization"] on {reference-guide}.
+
+== Step 2 - Start Docker Compose
+
+I started docker-compose:
+
+----
+docker-compose up
+----
+
+The above command downloaded all the necessary Docker images (configured in `docker-compose.yml` file).
+After that, it also created and started the containers.
+
+NOTE: The current shell remains blocked until we stop `docker-compose`.
+
+== Step 3 - Launch the Spring Cloud Data Flow Dashboard
+
+I opened the dashboard at http://localhost:9393/dashboard.
+
+== Step 4 - Create a Stream
+
+I did some steps in the UI of the dashboard.
+
+I used `Create Stream` under `Streams` tab to define and deploy a stream `time | log` called `ticktock`.
+This was done in two steps:
+
+image::01.png[title="Step 4.1"]
+
+image::02.png[title="Step 4.2"]
+
+After that, the `ticktock` stream was deployed:
+
+image::03.png[title="Step 4.3"]
+
+Two running stream apps appears under `Runtime` tab:
+
+image::04.png[title="Step 4.4"]
+
+Then I clicked on `ticktock.log` to determine the location of the stdout log file.
+
+image::05.png[title="Step 4.5"]
+
+== Step 5 - Verify that events are being written to the ticktock log every second
+
+----
+$ log=/tmp/spring-cloud-deployer-5011048283762989937/ticktock-1524755341440/ticktock.log/stdout_0.log
+$ tail -f $log
+----
+
+This last step did not work icon:bomb[].
+Obvious (I thinked) ... the above file is inside the container!
+So I started to investigate how to read this file by using docker reading the {reference-guide} and yes, in that, I found the solution to type the correct command:
+
+----
+$ docker exec -it dataflow-server tail -f $log
+----
+
+My conclusion was: the {quick-start-page} needs to be fixed (on this step) to present the above command correctly.
+
+== Step 6 - Delete a Stream
+
+image::06.png[title="Step 6.1"]
+
+image::07.png[title="Step 6.2"]
+
+== Step 7 - Destroy the Quick Start environment
+
+I opened another shell and typed:
+
+----
+docker-compose down
+----
+
+== Step 8 (Optional) - Remove all finished containers
+
+To remove all finished containers, I did:
+
+----
+docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
+----
+
+== Conclusion
+
+The docker configuration to run SCDF is well done and absolutely finished.
+I didn't anything to get things done.
+Amazing!
+
+The UI interface (provided by the dashboard) is pretty simple.
+The stream creation using the UI is, also, very basic but can be configured (even though I have not done this in this lab).
+
+== References
+
+* {quick-start-page}
+* {reference-guide}

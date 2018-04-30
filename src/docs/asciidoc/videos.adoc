@@ -1,0 +1,8 @@
+[[videos]]
+= Videos with a technical background
+
+Prior to starting my own labs, I saw some introductory videos (available on YouTube):
+
+* {yA-desc} (<<yA>>)
+* {yB-desc} (<<yB>>)
+* {yC-desc} (<<yC>>)
