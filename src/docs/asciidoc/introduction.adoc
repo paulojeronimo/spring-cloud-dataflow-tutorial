@@ -31,4 +31,4 @@ endif::[]
 
 == About me
 
-You can read more about me on my blog: http://paulojeronimo.com/blog.
+You can read more about me on http://paulojeronimo.github.io/cv/en/[my cv].
