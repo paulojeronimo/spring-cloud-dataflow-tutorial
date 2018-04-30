@@ -32,7 +32,6 @@ _publish() {
   cd - &> /dev/null
 
   tree -a "$published_dir"
-  return 0
 
   local msg="Published at `date`"
   cd "$published_dir"
