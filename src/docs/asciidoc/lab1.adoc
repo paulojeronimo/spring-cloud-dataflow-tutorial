@@ -19,7 +19,7 @@ My first steps were create a working directory and download the `docker-compose.
 ----
 $ mkdir -p ~/labs/spring-cloud-dataflow && cd $_
 
-$ wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v1.4.0.RELEASE/spring-cloud-dataflow-server-local/docker-compose.yml
+$ wget -c https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v1.4.0.RELEASE/spring-cloud-dataflow-server-local/docker-compose.yml
 ----
 
 By default, this file is configured to use {Kafka} and {Zookeeper}:
@@ -71,9 +71,9 @@ services:
 ----
 
 I could also change these settings to use {RabbitMQ}, {MySQL}, and {Redis}.
-I show you how to do this in the <<lab2-step9,step 9>> of this lab.
+I show you how to do this in the <<lab1-step9,step 9>> of this lab.
 
-[[lab2-step2]]
+[[lab1-step2]]
 == Step 2 - Start Docker Compose
 
 I started `docker-compose`:
@@ -154,7 +154,7 @@ To remove all finished containers, I did:
 docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
 ----
 
-[[lab2-step9]]
+[[lab1-step9]]
 == Step 9 - Change docker-compose.yml to use RabbitMQ, MySQL and Redis and test it
 
 In order to change the contents of `docker-compose.yml` I cloned the repository of this tutorial:
@@ -177,7 +177,7 @@ This is the contents of the file `docker-compose.yml.patch`:
 include::{projectdir}/files/docker-compose.yml.patch[]
 ----
 
-Now I could repeat the steps from this tutorial beggining from <<lab2-step2,step 2>>.
+Now I could repeat the steps from this tutorial beggining from <<lab1-step2,step 2>>.
 
 More details about the configuration that I made in `docker-compose.yml` throught the use of of my patch can be found in {uri-reference-guide}#getting-started-customizing-spring-cloud-dataflow-docker["Docker Compose Customization"] on {reference-guide}.
 
@@ -188,7 +188,7 @@ Positive points: ::
 * The Docker configuration to run SCDF is well done and absolutely finished.
 I did not have to do anything to quickly get things running.
 * Running SCDF on Docker on my machine was extremely fast.
-* Using Docker Compose, the switching from Kafka to RabbitMQ was quite simple (after I resolve a problem with a non document step).
+* Using Docker Compose, the switching from Kafka to RabbitMQ was quite simple (after I resolve a problem with a non documented step).
 * The UI interface (provided by the dashboard) is pretty simple.
 All sources, sinks, and processors are elements that could be configured through the UI.
 The stream creation using the UI is very basic (for me this is nice) but can also be configured.

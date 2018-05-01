@@ -4,15 +4,17 @@
 By doing this lab, my intention was to discover if it was easy to create an infrastructure prepared to run SCDF in {pivotal-cloud-foundry}.
 Also, one of my goals was to switch from {Kafka} to {RabbitMQ}.
 
+NOTE: To start this lab, in order to have sufficient memory for executing the following steps, I had to quit Docker.
+
 == Prerequisites
 
+. <<lab1,Lab 1>> executed.
 . {VirtualBox} installed (PCF Dev uses it).
 . An account on {uri-pivotal-cloud-foundry}[Pivotal Web Services] (do download PCF Dev binary).
 
 == Step 1 - Download and install PCF Dev
 
-First of all, I https://network.pivotal.io/products/pcfdev[downloaded] and https://pivotal.io/platform/pcf-tutorials/getting-started-with-pivotal-cloud-foundry-dev/install-pcf-dev[install PCF Dev CLI].
-I typed the following commands:
+First of all, after I downloaded the https://network.pivotal.io/products/pcfdev[PCF Dev binary], I typed the following commands to install it:
 
 ----
 $ unzip pcfdev-v0.30.0+PCF1.11.0-osx.zip
@@ -21,14 +23,18 @@ Archive:  pcfdev-v0.30.0+PCF1.11.0-osx.zip
 
 $ ./pcfdev-v0.30.0+PCF1.11.0-osx
 Plugin successfully upgraded. Current version: 0.30.0. For more info run: cf dev help
+----
 
+To check the current version, I typed:
+
+----
 $ cf dev version
 PCF Dev version 0.30.0 (CLI: 850ae45, OVA: 0.549.0)
 ----
 
 == Step 2 - Start PCF Dev
 
-After installed, I started PCF Dev with more memory than default (4096 MB makes the services very hard to work):
+I started PCF Dev with more memory than default (4096 MB makes the services very hard to work):
 
 ----
 $ cf dev start -m 8192
@@ -141,63 +147,42 @@ OK
 == Step 5 - Download some jars
 
 ----
-wget -c http://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server-cloudfoundry/1.4.0.RELEASE/spring-cloud-dataflow-server-cloudfoundry-1.4.0.RELEASE.jar
+$ cd ~/labs/spring-cloud-dataflow
+$ wget -c http://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server-cloudfoundry/1.4.0.RELEASE/spring-cloud-dataflow-server-cloudfoundry-1.4.0.RELEASE.jar
 ----
 
 == Step 6 - Create a manifest.yml file
 
+I copied `tutorial/file/manifest.yml` file to the current dir:
+
 ----
-cat > manifest.yml <<'EOF'
----
-applications:
-- name: dataflow-server
-  memory: 1g
-  disk_quota: 2g
-  path: spring-cloud-dataflow-server-cloudfoundry-1.4.0.RELEASE.jar
-  buildpack: java_buildpack
-  services:
-    - df-mysql
-    - df-redis
-  env:
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_URL: https://api.local.pcfdev.io
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_ORG: pcfdev-org
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_SPACE: pcfdev-space
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_DOMAIN: local.pcfdev.io
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_SERVICES: df-rabbitmq
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_USERNAME: admin
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_PASSWORD: admin
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_SKIP_SSL_VALIDATION: true
-    MAVEN_REMOTE_REPOSITORIES_REPO1_URL: https://repo.spring.io/libs-snapshot
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_MEMORY: 512
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_DISK: 512
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_INSTANCES: 1
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_BUILDPACK: java_buildpack
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_STREAM_ENABLE_RANDOM_APP_NAME_PREFIX: false
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_TASK_SERVICES: df-mysql
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_TASK_MEMORY: 512
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_TASK_DISK: 512
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_TASK_INSTANCES: 1
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_TASK_BUILDPACK: java_buildpack
-    SPRING_CLOUD_DEPLOYER_CLOUDFOUNDRY_TASK_ENABLE_RANDOM_APP_NAME_PREFIX: false
-    SPRING_CLOUD_DATAFLOW_FEATURES_EXPERIMENTAL_TASKSENABLED: true
-EOF
+$ cp ../tutorial/files/manifest.yml .
 ----
 
-See the session "Deploying using a Manifest" of the document {uri-spring-cloud-dataflow-server-cloudfoundry-doc}["Spring Cloud Data Flow Server for Cloud Foundry"] for more information.
+NOTE: The `tutorial` dir was created on <<lab1-step9,lab 1, step 9>>.
+
+The content of this file is presented below:
+
+[source,yaml]
+----
+include::{projectdir}/files/manifest.yml[]
+----
+
+NOTE: The session {uri-spring-cloud-dataflow-server-cloudfoundry-doc}/#getting-started-cloudfoundry-deploying-using-manifest["Deploying using a Manifest"] of the document {uri-spring-cloud-dataflow-server-cloudfoundry-doc}["Spring Cloud Data Flow Server for Cloud Foundry"] details this file.
 
 == Step 7 - Push spring-cloud-dataflow-server-cloudfoundry to PCF Dev
 
 ----
 $ cf push
 Pushing from manifest to org pcfdev-org / space pcfdev-space as admin...
-Using manifest file /Users/pj/labs/spring-cloud-dataflow-tutorial/manifest.yml
+Using manifest file /Users/pj/labs/spring-cloud-dataflow/manifest.yml
 Getting app info...
 Creating app with these attributes...
 + name:         dataflow-server
-  path:         /Users/pj/labs/spring-cloud-dataflow-tutorial/spring-cloud-dataflow-server-cloudfoundry-1.4.0.RELEASE.jar
+  path:         /Users/pj/labs/spring-cloud-dataflow/spring-cloud-dataflow-server-cloudfoundry-1.4.0.RELEASE.jar
 + buildpack:    java_buildpack
 + disk quota:   2G
-+ memory:       1G
++ memory:       2G
   services:
 +   df-mysql
 +   df-redis
@@ -232,11 +217,12 @@ Binding services...
 Comparing local files to remote cache...
 Packaging files to upload...
 Uploading files...
- 71.59 MiB / 71.59 MiB [==================================================================================] 100.00% 1s
+ 71.59 MiB / 71.59 MiB [==========================================================================================================================] 100.00% 2s
 
 Waiting for API to complete processing files...
 
 Staging app and tracing logs...
+   Downloading java_buildpack...
    Downloaded java_buildpack (244.5M)
    Creating container
    Successfully created container
@@ -247,16 +233,16 @@ Staging app and tracing logs...
    -----> Downloading Open Jdk JRE 1.8.0_121 from https://java-buildpack.cloudfoundry.org/openjdk/trusty/x86_64/openjdk-1.8.0_121.tar.gz (found in cache)
           Expanding Open Jdk JRE to .java-buildpack/open_jdk_jre (1.0s)
    -----> Downloading Open JDK Like Memory Calculator 2.0.2_RELEASE from https://java-buildpack.cloudfoundry.org/memory-calculator/trusty/x86_64/memory-calculator-2.0.2_RELEASE.tar.gz (found in cache)
-          Memory Settings: -Xss349K -Xms681574K -XX:MetaspaceSize=104857K -Xmx681574K -XX:MaxMetaspaceSize=104857K
+          Memory Settings: -Xmx1363148K -XX:MaxMetaspaceSize=209715K -Xms1363148K -XX:MetaspaceSize=209715K -Xss699K
    -----> Downloading Container Certificate Trust Store 2.0.0_RELEASE from https://java-buildpack.cloudfoundry.org/container-certificate-trust-store/container-certificate-trust-store-2.0.0_RELEASE.jar (found in cache)
-          Adding certificates to .java-buildpack/container_certificate_trust_store/truststore.jks (0.3s)
+          Adding certificates to .java-buildpack/container_certificate_trust_store/truststore.jks (0.4s)
    -----> Downloading Spring Auto Reconfiguration 1.10.0_RELEASE from https://java-buildpack.cloudfoundry.org/auto-reconfiguration/auto-reconfiguration-1.10.0_RELEASE.jar (found in cache)
    Exit status 0
    Staging complete
    Uploading droplet, build artifacts cache...
    Uploading build artifacts cache...
    Uploading droplet...
-   Uploaded build artifacts cache (109B)
+   Uploaded build artifacts cache (108B)
    Uploaded droplet (116.9M)
    Uploading complete
    Destroying container
@@ -267,28 +253,28 @@ Waiting for app to start...
 name:              dataflow-server
 requested state:   started
 instances:         1/1
-usage:             1G x 1 instances
+usage:             2G x 1 instances
 routes:            dataflow-server.local.pcfdev.io
-last uploaded:     Sun 29 Apr 13:18:54 WEST 2018
+last uploaded:     Tue 01 May 19:48:22 WEST 2018
 stack:             cflinuxfs2
 buildpack:         java_buildpack
 start command:     CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-2.0.2_RELEASE
-                   -memorySizes=metaspace:64m..,stack:228k.. -memoryWeights=heap:65,metaspace:10,native:15,stack:10
-                   -memoryInitials=heap:100%,metaspace:100% -stackThreads=300 -totMemory=$MEMORY_LIMIT) &&
-                   JAVA_OPTS="-Djava.io.tmpdir=$TMPDIR
+                   -memorySizes=metaspace:64m..,stack:228k.. -memoryWeights=heap:65,metaspace:10,native:15,stack:10 -memoryInitials=heap:100%,metaspace:100%
+                   -stackThreads=300 -totMemory=$MEMORY_LIMIT) && JAVA_OPTS="-Djava.io.tmpdir=$TMPDIR
                    -XX:OnOutOfMemoryError=$PWD/.java-buildpack/open_jdk_jre/bin/killjava.sh $CALCULATED_MEMORY
                    -Djavax.net.ssl.trustStore=$PWD/.java-buildpack/container_certificate_trust_store/truststore.jks
-                   -Djavax.net.ssl.trustStorePassword=java-buildpack-trust-store-password" && SERVER_PORT=$PORT eval
-                   exec $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/.
-                   org.springframework.boot.loader.JarLauncher
+                   -Djavax.net.ssl.trustStorePassword=java-buildpack-trust-store-password" && SERVER_PORT=$PORT eval exec
+                   $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp $PWD/. org.springframework.boot.loader.JarLauncher
 
      state     since                  cpu      memory         disk         details
-#0   running   2018-04-29T12:19:56Z   246.0%   476.3M of 1G   206M of 2G   
+#0   running   2018-05-01T18:49:23Z   220.0%   782.6M of 2G   206M of 2G   
 ----
 
 == Step 8 - Access the dashboard
 
 After deployed, I pointed my browser to to following URL: http://dataflow-server.local.pcfdev.io/dashboard/.
+
+I noticed that the dashboard gives me a information that it has no applications installed.
 
 == Step 9 - Use the shell
 
@@ -319,22 +305,32 @@ Welcome to the Spring Cloud Data Flow shell. For assistance hit TAB or type "hel
 server-unknown:>
 ----
 
+I configured the shell to access my local PCF Dev instance:
+
 ----
 server-unknown:>dataflow config server http://dataflow-server.local.pcfdev.io
 Shell mode: classic, Server mode: classic
 dataflow:>
 ----
 
+I imported the applications:
+
 ----
 dataflow:>app import --uri http://bit.ly/Celsius-SR1-stream-applications-rabbit-maven
-Successfully registered applications: [sink.task-launcher-yarn, source.tcp, sink.jdbc, source.http, sink.rabbit, source.rabbit, source.ftp, sink.gpfdist, processor.transform, source.loggregator, source.sftp, processor.filter, source.file, sink.cassandra, processor.groovy-filter, sink.router, source.trigger, sink.hdfs-dataset, processor.splitter, source.load-generator, sink.sftp, sink.file, processor.tcp-client, source.time, source.gemfire, source.twitterstream, sink.tcp, source.jdbc, sink.field-value-counter, sink.redis-pubsub, sink.hdfs, sink.task-launcher-local, processor.bridge, processor.pmml, processor.httpclient, sink.ftp, source.s3, sink.log, sink.gemfire, sink.aggregate-counter, sink.throughput, source.triggertask, sink.s3, source.gemfire-cq, source.jms, source.tcp-client, processor.scriptable-transform, sink.counter, sink.websocket, source.mongodb, source.mail, processor.groovy-transform, source.syslog]
+Successfully registered 65 applications from [source.sftp, source.mqtt.metadata, sink.mqtt.metadata, source.file.metadata, processor.tcp-client, source.s3.metadata, source.jms, source.ftp, processor.transform.metadata, source.time, sink.mqtt, sink.s3.metadata, processor.scriptable-transform, sink.log, source.load-generator, processor.transform, source.syslog, sink.websocket.metadata, sink.task-launcher-local.metadata, source.loggregator.metadata, source.s3, source.load-generator.metadata, processor.pmml.metadata, source.loggregator, source.tcp.metadata, processor.httpclient.metadata, sink.file.metadata, source.triggertask, source.twitterstream, source.gemfire-cq.metadata, processor.aggregator.metadata, source.mongodb, source.time.metadata, source.gemfire-cq, sink.counter.metadata, source.http, sink.tcp.metadata, sink.pgcopy.metadata, source.rabbit, sink.task-launcher-yarn, source.jms.metadata, sink.gemfire.metadata, sink.cassandra.metadata, processor.tcp-client.metadata, processor.header-enricher, sink.throughput, sink.task-launcher-local, processor.python-http, sink.aggregate-counter.metadata, sink.mongodb, processor.twitter-sentiment, sink.log.metadata, processor.splitter, sink.hdfs-dataset, source.tcp, processor.python-jython.metadata, source.trigger, source.mongodb.metadata, processor.bridge, source.http.metadata, source.rabbit.metadata, sink.ftp, sink.jdbc, source.jdbc.metadata, source.mqtt, processor.pmml, sink.aggregate-counter, sink.rabbit.metadata, processor.python-jython, sink.router.metadata, sink.cassandra, processor.filter.metadata, source.tcp-client.metadata, processor.header-enricher.metadata, processor.groovy-transform, source.ftp.metadata, sink.router, sink.redis-pubsub, source.tcp-client, processor.httpclient, sink.file, sink.websocket, source.syslog.metadata, sink.s3, sink.counter, sink.rabbit, processor.filter, source.trigger.metadata, source.mail.metadata, sink.gpfdist.metadata, sink.pgcopy, processor.python-http.metadata, sink.jdbc.metadata, sink.gpfdist, sink.ftp.metadata, processor.splitter.metadata, sink.sftp, sink.field-value-counter, processor.groovy-filter.metadata, processor.twitter-sentiment.metadata, source.triggertask.metadata, sink.hdfs, processor.groovy-filter, sink.redis-pubsub.metadata, source.sftp.metadata, processor.bridge.metadata, sink.field-value-counter.metadata, processor.groovy-transform.metadata, processor.aggregator, sink.sftp.metadata, processor.tensorflow.metadata, sink.throughput.metadata, sink.hdfs-dataset.metadata, sink.tcp, source.mail, sink.task-launcher-cloudfoundry.metadata, source.gemfire.metadata, processor.tensorflow, source.jdbc, sink.task-launcher-yarn.metadata, sink.gemfire, source.gemfire, source.twitterstream.metadata, sink.hdfs.metadata, processor.tasklaunchrequest-transform, sink.task-launcher-cloudfoundry, source.file, sink.mongodb.metadata, processor.tasklaunchrequest-transform.metadata, processor.scriptable-transform.metadata]
 ----
+
+I refresh my browser and noticed that, now, I had many applications installed (65 according to the last log).
+
+I created the stream:
 
 ----
 dataflow:>stream create --name httptest --definition "http | log" --deploy
 Created new stream 'httptest'
 Deployment request has been sent
 ----
+
+I noticed that the stream was deployed:
 
 ----
 dataflow:>stream list
@@ -353,9 +349,9 @@ Getting apps in org pcfdev-org / space pcfdev-space as admin...
 OK
 
 name                            requested state   instances   memory   disk   urls
-dataflow-server                 started           1/1         1G       2G     dataflow-server.local.pcfdev.io
-dataflow-server-httptest-http   started           1/1         512M     512M   dataflow-server-httptest-http.local.pcfdev.io
+dataflow-server                 started           1/1         2G       2G     dataflow-server.local.pcfdev.io
 dataflow-server-httptest-log    started           1/1         512M     512M   dataflow-server-httptest-log.local.pcfdev.io
+dataflow-server-httptest-http   started           1/1         512M     512M   dataflow-server-httptest-http.local.pcfdev.io
 ----
 
 In order to view the log output for `dataflow-server-httptest-log`, I typed:
@@ -390,12 +386,19 @@ My last command was delete the created stream:
 ----
 dataflow:>stream destroy --name httptest
 Destroyed stream 'httptest'
+dataflow:>exit
 ----
 
 == Step 10 - Stop PCF Dev
 
 ----
 cf dev stop
+----
+
+== Step 11 - (Optional) Destroy the PCF Dev environment
+
+----
+cf dev destroy
 ----
 
 [[lab2-conclusions]]
@@ -415,3 +418,4 @@ So, I would recommend the use of Docker in a developer environment instead of PC
 
 * {oA}
 * {uri-spring-cloud-dataflow-samples-docs}[Spring Cloud Data Flow Samples Documentation]
+* https://pivotal.io/platform/pcf-tutorials/getting-started-with-pivotal-cloud-foundry-dev/install-pcf-dev[Install PCF Dev CLI].
