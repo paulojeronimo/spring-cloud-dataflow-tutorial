@@ -12,22 +12,42 @@
 :mysql: {uri-mysql}[MySQL]
 :rabbitmq: {uri-rabbitmq}[RabbitMQ]
 :redis: {uri-redis}[Redis]
+:maven: {uri-maven}[Maven]
+:sdkman: {uri-sdkman}[SDKMAN]
+:virtualbox: {uri-virtualbox}[VirtualBox]
 
 // Spring related
 :quick-start-page: {uri-quick-start}[Quick Start page]
 :reference-guide: {uri-reference-guide}[Spring Cloud Data Flow Reference Guide]
 :spring-cloud-dataflow: {uri-spring-cloud-dataflow}[Spring Cloud Data Flow]
+:springInitializr: {uri-spring-initializr}[Spring Initializr]
 :pivotal-cloud-foundry: {uri-pivotal-cloud-foundry}[Pivotal Cloud Foundry]
 
 // Labs titles
-:lab1-desc: Quick Start with Docker
-:lab2-desc: Run SCDF in PCF Dev
-:lab3-desc: Coding in Java
+:lab1-title: Quick Start with Docker
+:lab2-title: Run SCDF in PCF Dev
+:lab3-title: Creating a custom processor application
 
 // YouTube videos titles
-:yA-desc: Webinar Data Microservices with Spring Cloud Data Flow
-:yB-desc: Spring Cloud Data Flow DEMO
-:yC-desc: Orchestrating Data Microservices with Spring Cloud Data Flow - Mark Pollack
-:yD-desc: Spring Tips: Spring Cloud Data Flow
-:yE-desc: Demo: Spring Cloud Data Flow Shell Tips and Tricks
-:yF-desc: 8 min demo: Composed Tasks in Spring Cloud Data Flow 1.2
+:yA-title: Webinar Data Microservices with Spring Cloud Data Flow
+:yB-title: Spring Cloud Data Flow DEMO
+:yC-title: Orchestrating Data Microservices with Spring Cloud Data Flow - Mark Pollack
+:yD-title: Spring Tips: Spring Cloud Data Flow
+:yE-title: Demo: Spring Cloud Data Flow Shell Tips and Tricks
+:yF-title: 8 min demo: Composed Tasks in Spring Cloud Data Flow 1.2
+:yG-title: Spring Flo for Spring Cloud Data Flow1.0.0M3
+
+// Video links
+:yA: <<yA,"{yA-title}">> (yA)
+:yB: <<yB,"{yB-title}">> (yB)
+:yC: <<yC,"{yC-title}">> (yC)
+:yD: <<yD,"{yD-title}">> (yD)
+:yE: <<yE,"{yE-title}">> (yE)
+:yF: <<yF,"{yF-title}">> (yF)
+:yG: <<yG,"{yG-title}">> (yG)
+
+// Other articles titles
+:oA-title: Getting Started with Spring Cloud Data Flow on PCF Dev
+
+// Other articles links
+:oA: <<oA,"{oA-title}">> (oA)

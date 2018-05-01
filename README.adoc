@@ -22,7 +22,7 @@ This is the source code of the document {uri-published-html}["My steps to learn 
 [[editing]]
 == Editing
 
-You can use any editor to write this document (I use {Vim}]). A good and https://en.wikipedia.org/wiki/WYSIWYG[WYSIWYG] alternative is https://www.asciidocfx.com/[AsciidocFX]. Other alternatives can be found in the page https://asciidoctor.org/docs/editing-asciidoc-with-live-preview/["Editing AsciiDoc with Live Preview"].
+You can use any editor to write this document (I use {Vim}). A good and https://en.wikipedia.org/wiki/WYSIWYG[WYSIWYG] alternative is https://www.asciidocfx.com/[AsciidocFX]. Other alternatives can be found in the page https://asciidoctor.org/docs/editing-asciidoc-with-live-preview/["Editing AsciiDoc with Live Preview"].
 
 If you are like me (likes to use Vim to edit your files and build it with {Gradle}) you can also check how to use the https://github.com/asciidoctor/asciidoctor-gradle-examples/tree/master/asciidoc-to-html-livereload-example[live reload support].
 

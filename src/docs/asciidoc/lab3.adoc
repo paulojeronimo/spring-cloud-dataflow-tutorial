@@ -1,0 +1,312 @@
+[[lab3]]
+= Lab 3 - {lab3-title}
+
+By doing this lab I wanted to discover the effort related to a creation of a new processor in a development environment.
+So, if a new processor was easy to create, I could assume that sources and sinks also could be.
+
+== Prerequisites
+
+. <<lab1,Lab 1>> executed.
+. {SDKMAN} installed.
+. {Maven} installed (in my case, this was done via {SDKMAN}).
+
+== Step 1 - Create a rabbitmq Docker container
+
+I looked for and created a rabbitmq container:
+
+----
+# shell 1
+$ docker search rabbitmq
+$ docker run -d -p 5672:5672 -p 15672:15672  --name rabbitmq rabbitmq
+----
+
+== Step 2 - Download and start, manually, sources and sinks
+
+I changed my work directory to the directory created on "Lab 1":
+
+----
+$ cd ~/labs/spring-cloud-dataflow
+----
+
+I downloaded some pre-existing sources and sinks:
+
+----
+$ wget -c https://repo.spring.io/libs-release/org/springframework/cloud/stream/app/http-source-rabbit/1.3.1.RELEASE//http-source-rabbit-1.3.1.RELEASE.jar
+$ wget -c https://repo.spring.io/release/org/springframework/cloud/stream/app/log-sink-rabbit/1.3.1.RELEASE/log-sink-rabbit-1.3.1.RELEASE.jar
+----
+
+I started them:
+
+----
+# shell 2
+$ java -Dserver.port=8123 \
+-Dhttp.path-pattern=/data \
+-Dspring.cloud.stream.bindings.output.destination=sensorData \
+-jar http-source-rabbit-1.3.1.RELEASE.jar
+
+# shell 3
+$ java -Dlog.level=WARN \
+-Dspring.cloud.stream.bindings.input.destination=sensorData \
+-jar log-sink-rabbit-1.3.1.RELEASE.jar
+----
+
+NOTE: Note the use of the the parameters passed to source and sync.
+
+I sent a post via curl:
+
+----
+# shell 1
+$ curl -H "Content-Type: application/json" -X POST -d '{"id":"1","temperature":"100"}' http://localhost:8123/data
+----
+
+I stopped the rabbitmq container:
+
+----
+$ docker stop rabbitmq
+----
+
+== Step 3 - Create and run a new processor manually
+
+To use {SpringInitializr} via command line, I {uri-spring-boot-cli-installation}[installed Spring Boot CLI] via {SDKMAN}:
+
+----
+$ sdk install springboot
+----
+
+I generated the initial `transformer` code using `spring init`:
+
+----
+$ mkdir transformer && cd $_
+$ spring init -d=cloud-stream -g=io.spring.stream.sample -a=transformer -n=transformer --package-name=io.spring.stream.sample ../transformer.zip
+$ unzip ../transformer.zip
+----
+
+I saw the created directory structure:
+
+----
+$ tree
+.
+|-- mvnw
+|-- mvnw.cmd
+|-- pom.xml
+`-- src
+    |-- main
+    |   |-- java
+    |   |   `-- io
+    |   |       `-- spring
+    |   |           `-- stream
+    |   |               `-- sample
+    |   |                   `-- TransformerApplication.java
+    |   `-- resources
+    |       `-- application.properties
+    `-- test
+        `-- java
+            `-- io
+                `-- spring
+                    `-- stream
+                        `-- sample
+                            `-- TransformerApplicationTests.java
+
+14 directories, 6 files
+----
+
+I added the code `Transformer.java` to the `transformer` project:
+
+----
+$ cp ../tutorial/files/Transformer.java src/main/java/io/spring/stream/sample/
+----
+
+This is the code that was added:
+
+[source,java]
+----
+include::{projectdir}/files/Transformer.java[]
+----
+
+I patched the `pom.xml`:
+
+----
+$ patch pom.xml < ../tutorial/files/pom.xml.patch
+----
+
+This is the patch that was applied:
+
+[source,diff]
+----
+include::{projectdir}/files/pom.xml.patch[]
+----
+
+I changed the code of `TransformerApplicationTests.java` by applying another patch:
+
+----
+$ patch src/test/java/io/spring/stream/sample/TransformerApplicationTests.java < ../tutorial/files/TransformerApplicationTests.java.patch
+----
+
+This is the source code of the applied patch:
+
+[source,diff]
+----
+include::{projectdir}/files/TransformerApplicationTests.java.patch[]
+----
+
+Finally, I built the package using Maven:
+
+----
+$ ./mvnw clean package
+$ cp target/transformer-0.0.1-SNAPSHOT.jar ..
+$ cd ..
+----
+
+I started rabbitmq (it it was stopped before):
+
+----
+$ docker start rabbitmq
+----
+
+I started the services:
+
+----
+# shell 2
+$ java  -Dserver.port=8123 \
+        -Dhttp.path-pattern=/data \
+        -Dspring.cloud.stream.bindings.output.destination=sensorData \
+        -jar http-source-rabbit-1.3.1.RELEASE.jar
+
+# shell 3
+$ java  -Dserver.port=8090 \
+        -Dspring.cloud.stream.bindings.input.destination=sensorData \
+        -Dspring.cloud.stream.bindings.output.destination=normalizedSensorData \
+        -jar transformer-0.0.1-SNAPSHOT.jar
+
+# shell 4
+$ java  -Dlog.level=WARN \
+        -Dspring.cloud.stream.bindings.input.destination=normalizedSensorData \
+        -jar log-sink-rabbit-1.3.1.RELEASE.jar
+----
+
+I tested the services using curl:
+
+----
+# shell 1
+$ curl -H "Content-Type: application/json" -X POST -d '{"id":"1","temperature":"100"}' http://localhost:8123/data
+----
+
+I left the rabbitmq container running to execute my next steps.
+
+== Step 4 - Run the new processor using spring-cloud-dataflow-server-local
+
+I downloaded the local spring-cloud-dataflow server:
+
+----
+$ wget -c https://repo.spring.io/release/org/springframework/cloud/spring-cloud-dataflow-server-local/1.4.0.RELEASE/spring-cloud-dataflow-server-local-1.4.0.RELEASE.jar
+----
+
+I started it:
+
+----
+$ java -jar spring-cloud-dataflow-server-local-1.4.0.RELEASE.jar
+----
+
+Using the spring-cloud-dataflow shell, I manually register the components and created the stream:
+
+----
+# shell 2
+$ java -jar spring-cloud-dataflow-shell-1.4.0.RELEASE.jar
+dataflow:>app list
+No registered apps.
+You can register new apps with the 'app register' and 'app import' commands.
+
+dataflow:>app register --type source --name http --uri file:///Users/pj/labs/spring-cloud-dataflow/http-source-rabbit-1.3.1.RELEASE.jar
+Successfully registered application 'source:http'
+
+dataflow:>app register --type sink --name log --uri file:///Users/pj/labs/spring-cloud-dataflow/log-sink-rabbit-1.3.1.RELEASE.jar
+Successfully registered application 'sink:log'
+
+dataflow:>app register --type processor --name transformer --uri file:///Users/pj/labs/spring-cloud-dataflow/transformer-0.0.1-SNAPSHOT.jar
+Successfully registered application 'processor:transformer'
+
+dataflow:>stream create --name httpIngest --definition "http --server.port=8123 --path-pattern=/data | transformer --server.port=8090 | log --level=WARN" --deploy
+Created new stream 'httpIngest'
+Deployment request has been sent
+----
+
+When the stream was created, I saw in the server log:
+
+----
+# shell 1
+2018-05-01 01:47:48.121  INFO 15385 --- [nio-9393-exec-2] o.s.c.d.spi.local.LocalAppDeployer       : Deploying app with deploymentId httpIngest.log instance 0.
+   Logs will be in /var/folders/tx/xxk5qr1j5txfm5yvs3p9k9bc0000gn/T/spring-cloud-deployer-4223749192815736035/httpIngest-1525135668085/httpIngest.log
+----
+
+I exited the spring-cloud-dataflow shell:
+
+----
+# shell 2
+dataflow:>stream list
+...
+dataflow:>exit
+----
+
+I started `tail` to monitoring the `stdout_0.log` file:
+
+----
+$ tail -f /var/folders/tx/xxk5qr1j5txfm5yvs3p9k9bc0000gn/T/spring-cloud-deployer-4223749192815736035/httpIngest-1525135668085/httpIngest.log/stdout_0.log &
+----
+
+I sent a POST to source via `curl` and saw an output presented by then running instance of `tail`:
+
+----
+$ curl -H "Content-Type: application/json" -X POST -d '{"id":"1","temperature":"100"}' http://localhost:8123/data
+2018-05-01 01:52:34.997  WARN 15445 --- [er.httpIngest-1] log-sink                                 : {"sensor_id":"43738bcb-2af5-917e-61ff-4c2837c5de83","temp_val":"-999"}
+----
+
+I stopped the spring-cloud-dataflow server:
+
+----
+# shell 1
+<Ctrl+C>
+----
+
+I killed the `tail` process:
+
+----
+$ pkill tail
+----
+
+== Step 5 - Stop and destroy rabbitmq container
+
+----
+$ docker stop rabbitmq
+$ docker ps -a | grep 'Exited.*rabbitmq$' | cut -d ' ' -f 1 | xargs docker rm
+----
+
+[[lab3-conclusions]]
+== Conclusions
+
+Positive points: ::
+* Create a project is very quick and simple.
+{SpringInitializr} provides these features.
+* Create a new processor is also very easy, like to do any other Spring Boot application.
+** Any team with a development background on creating Spring Boot applications has the necessary knowledge.
+Only a few new annotations/APIs must be studied to getting started.
+* The use of Docker in development environment make things extremally easier.
+* The source code for sources (like `http`) and sinks (like `log`) are quite simple and available on GitHub (see the references below).
+So you can see them to guide yourself in the development of your own components.
+Negative points: ::
+* The Spring documentation, one more time, needs to be more accurate to help the developers better.
+** Some bugs I have to solve myself:
+*** The generated code for `transformer` came with an incorrect `pom.xml`, so I had to patch it.
+** Some points were omitted or could be better explained in the Spring documentation:
+*** How to quickly install and use RabbitMQ in a development environment in order to test Spring Cloud Data Flow?
+I found a solution to this question https://coderwall.com/p/uqp34w/install-rabbitmq-via-docker-in-os-x[in this post].
+*** I needed to modify my `pom.xml` in order to make `Transformer` test execute.
+I found https://stackoverflow.com/a/42237483[a solution on Stack Overflow].
+In my point of view, Spring Initializr failed to generate the correct `pom.xml` or I passed wrong arguments to it.
+
+== References
+
+* https://docs.spring.io/spring-cloud-dataflow/docs/current/reference/htmlsingle/#streams-dev-guide[Stream Developer Guide]
+* https://docs.spring.io/spring-boot/docs/current/reference/html/cli-installation.html[Installing the CLI]
+* http://cloud.spring.io/spring-cloud-stream-app-starters/[Spring Cloud Stream App Starters]
+* https://github.com/spring-cloud-stream-app-starters/http/tree/master/spring-cloud-starter-stream-source-http[Http Source] (GitHub)
+* https://github.com/spring-cloud-stream-app-starters/log[Log Sink] (GitHub)

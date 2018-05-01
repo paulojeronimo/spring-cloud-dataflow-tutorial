@@ -1,5 +1,5 @@
 [[lab1]]
-= Lab 1: {lab1-desc}
+= Lab 1: {lab1-title}
 
 For me, the best way to start learning a new technology is by running all the stuff related to them inside a {docker} container.
 By this way, I can abstract myself about the related installation procedures and go directly to the point.
@@ -7,12 +7,19 @@ By this way, I can abstract myself about the related installation procedures and
 So, I started my labs by following the steps on the {quick-start-page}.
 These steps use Docker and {DockerCompose}.
 
+== Prerequisites
+
+. {Docker} installed.
+. {DockerCompose} installed.
+
 == Step 1 - Download docker-compose.yml
 
-My fist step was download the `docker-compose.yml` file:
+My first steps were create a working directory and download the `docker-compose.yml` file:
 
 ----
-wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v1.4.0.RELEASE/spring-cloud-dataflow-server-local/docker-compose.yml
+$ mkdir -p ~/labs/spring-cloud-dataflow && cd $_
+
+$ wget https://raw.githubusercontent.com/spring-cloud/spring-cloud-dataflow/v1.4.0.RELEASE/spring-cloud-dataflow-server-local/docker-compose.yml
 ----
 
 By default, this file is configured to use {Kafka} and {Zookeeper}:
@@ -64,11 +71,12 @@ services:
 ----
 
 I could also change these settings to use {RabbitMQ}, {MySQL}, and {Redis}.
-The steps for this task are described in the topic {uri-reference-guide}#getting-started-customizing-spring-cloud-dataflow-docker["Docker Compose Customization"] on {reference-guide}.
+I show you how to do this in the <<lab2-step9,step 9>> of this lab.
 
+[[lab2-step2]]
 == Step 2 - Start Docker Compose
 
-I started docker-compose:
+I started `docker-compose`:
 
 ----
 docker-compose up
@@ -115,12 +123,13 @@ $ tail -f $log
 
 This last step did not work icon:bomb[].
 Obvious (I thinked) ... the above file is inside the container!
-So I started to investigate how to read this file by using docker reading the {reference-guide} and yes, in that, I found the solution to type the correct command:
+So I started to investigate how to read this file by using Docker reading the {reference-guide} and yes, in that, I found the solution to type the correct command:
 
 ----
 $ docker exec -it dataflow-server tail -f $log
 ----
 
+[[lab1-negative-1]]
 My conclusion was: the {quick-start-page} needs to be fixed (on this step) to present the above command correctly.
 
 == Step 6 - Delete a Stream
@@ -137,7 +146,7 @@ I opened another shell and typed:
 docker-compose down
 ----
 
-== Step 8 (Optional) - Remove all finished containers
+== Step 8 -  Remove all finished containers
 
 To remove all finished containers, I did:
 
@@ -145,14 +154,48 @@ To remove all finished containers, I did:
 docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
 ----
 
-== Conclusion
+[[lab2-step9]]
+== Step 9 - Change docker-compose.yml to use RabbitMQ, MySQL and Redis and test it
 
-The docker configuration to run SCDF is well done and absolutely finished.
-I didn't anything to get things done.
-Amazing!
+In order to change the contents of `docker-compose.yml` I cloned the repository of this tutorial:
 
-The UI interface (provided by the dashboard) is pretty simple.
-The stream creation using the UI is, also, very basic but can be configured (even though I have not done this in this lab).
+[subs="attributes"]
+----
+$ git clone {uri-source-code} tutorial
+----
+
+After download this repository, I applied a patch on `docker-compose.yml`:
+
+----
+$ patch docker-compose.yml < tutorial/files/docker-compose.yml.patch
+----
+
+This is the contents of the file `docker-compose.yml.patch`:
+
+[source,diff]
+----
+include::{projectdir}/files/docker-compose.yml.patch[]
+----
+
+Now I could repeat the steps from this tutorial beggining from <<lab2-step2,step 2>>.
+
+More details about the configuration that I made in `docker-compose.yml` throught the use of of my patch can be found in {uri-reference-guide}#getting-started-customizing-spring-cloud-dataflow-docker["Docker Compose Customization"] on {reference-guide}.
+
+[[lab1-conclusions]]
+== Conclusions
+
+Positive points: ::
+* The Docker configuration to run SCDF is well done and absolutely finished.
+I did not have to do anything to quickly get things running.
+* Running SCDF on Docker on my machine was extremely fast.
+* Using Docker Compose, the switching from Kafka to RabbitMQ was quite simple (after I resolve a problem with a non document step).
+* The UI interface (provided by the dashboard) is pretty simple.
+All sources, sinks, and processors are elements that could be configured through the UI.
+The stream creation using the UI is very basic (for me this is nice) but can also be configured.
+** Even though I have not done configurations on elements of UI, a good video that shows how to do this is {yG}.
+Negative points: ::
+* The {quick-start-page} that I used to follow steps has a bug <<lab1-negative-1,like I said>>.
+* Even the {reference-guide} has some missed points that I had to discover myself.
 
 == References
 

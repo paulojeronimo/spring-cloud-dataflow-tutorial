@@ -1,10 +1,10 @@
 [[introduction]]
 = Introduction
 
-Recently, I had work to produce a document with a comparison between two tools for Cloud Data Flow.
+Recently I had work to produce a document with a comparison between two tools for Cloud Data Flow.
 I didn't have any knowledge of this kind of technology before creating this document.
 {spring-cloud-dataflow} (SCDF) is one of the tools in my comparison document.
-So, here I describe my own procedures to learn about SCDF.
+So, here I describe my own procedures to learn about SCDF and take my own preliminary conclusions (<<lab1-conclusions,1>>, <<lab2-conclusions,2>>, <<lab3-conclusions,3>>).
 I followed many steps on my own desktop (a MacBook Pro computer) to accomplish this task.
 This document shows you what I did.
 
@@ -12,9 +12,16 @@ Basically, to learn about SCDF in order to do a comparison with other tool:
 
 * I saw some <<videos,videos>> about it.
 * I wrote my own labs:
-** <<lab1,{lab1-desc}>>
-** <<lab2,{lab2-desc}>>
-** <<lab3,{lab3-desc}>>
+** <<lab1,{lab1-title}>>
+** <<lab2,{lab2-title}>>
+** <<lab3,{lab3-title}>>
+
+In these labs, I only used command line tools.
+This approach was very simple for me because I have to much experience in tools like Bash and GNU commands.
+I didn´t use any IDE (like {uri-spring-tool-suite}[Spring Tool Suite]).
+I know that this could make all the process even simpler for developers without command line experience.
+But, my focus was on the technologies itself.
+So for me, a command line approach showed me in deeper concepts that I wanted to learn.
 
 == About this document
 

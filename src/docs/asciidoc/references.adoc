@@ -1,4 +1,4 @@
-= References
+= All references
 
 Spring::
 GitHub:::
@@ -18,15 +18,16 @@ Documentation:::
 * http://docs.pivotal.io/scdf/[Spring Cloud® Data Flow for PCF]
 YouTube videos::
 https://www.youtube.com/channel/UC7yfnfvEUlXUIfm8rGLwZdA[SpringDeveloper channel]:::
-* [[yA]] yA: https://www.youtube.com/watch?v=Z6_ttC33N0U[{yA-desc}]
-* [[yB]] yB: https://www.youtube.com/watch?v=GqEsgLUwskY[{yB-desc}]
-* [[yC]] yC: https://www.youtube.com/watch?v=GaHgRw-3K84[{yC-desc}]
-* [[yD]] yD: https://www.youtube.com/watch?v=uyN8ttlTvUM[{yD-desc}]
-* [[yE]] yE: https://www.youtube.com/watch?v=KT_4kVcyfRA[{yE-desc}]
+* [[yA]] yA: https://www.youtube.com/watch?v=Z6_ttC33N0U[{yA-title}]
+* [[yB]] yB: https://www.youtube.com/watch?v=GqEsgLUwskY[{yB-title}]
+* [[yC]] yC: https://www.youtube.com/watch?v=GaHgRw-3K84[{yC-title}]
+* [[yD]] yD: https://www.youtube.com/watch?v=uyN8ttlTvUM[{yD-title}]
+* [[yE]] yE: https://www.youtube.com/watch?v=KT_4kVcyfRA[{yE-title}]
+* [[yG]] yG: https://www.youtube.com/watch?v=78CgV46OstI[{yG-title}]
 https://www.youtube.com/channel/UCdJ9hxQzAokvxuTdLUmXkQA[Corby Page channel]:::
-* [[yF]] yF: https://www.youtube.com/watch?v=8cqztXVPy6c[{yF-desc}]
+* [[yF]] yF: https://www.youtube.com/watch?v=8cqztXVPy6c[{yF-title}]
 Other articles/ examples::
-* [[oA]] oA: https://blog.ik.am/entries/396[Getting Started with Spring Cloud Data Flow on PCF Dev]
+* [[oA]] oA: https://blog.ik.am/entries/396[{oa-title}]
 * http://zoltanaltfatter.com/2017/08/24/streaming-with-spring-cloud-data-flow/[Streaming with Spring Cloud Data Flow]
 * http://www.baeldung.com/spring-cloud-data-flow-stream-processing[Getting Started with Stream Processing with Spring Cloud Data Flow]
 * https://labnotes.panderalabs.com/spring-cloud-data-flow-and-docker-kubernetes-99a19f2dbab3[Setting up a Spring Cloud Data Flow sandbox using Docker with Kubernetes]

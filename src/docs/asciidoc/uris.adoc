@@ -15,6 +15,9 @@
 :uri-mysql: https://www.mysql.com/
 :uri-rabbitmq: https://www.rabbitmq.com/
 :uri-redis: https://redis.io/
+:uri-sdkman: http://sdkman.io/
+:uri-maven: https://maven.apache.org
+:uri-virtualbox: https://www.virtualbox.org/
 
 // Spring
 :uri-spring-cloud-dataflow: https://github.com/spring-cloud/spring-cloud-dataflow
@@ -22,6 +25,12 @@
 :uri-spring-cloud-dataflow-server-cloudfoundry-doc: http://docs.spring.io/spring-cloud-dataflow-server-cloudfoundry/docs/1.4.0.RELEASE/reference/htmlsingle
 :uri-spring-cloud-dataflow-shell: https://github.com/spring-cloud/spring-cloud-dataflow-shell
 :uri-spring-cloud-dataflow-samples-docs: https://docs.spring.io/spring-cloud-dataflow-samples/docs/current/reference/htmlsingle
+:uri-spring-initializr: https://start.spring.io/
+:uri-spring-tool-suite: https://spring.io/tools
+:uri-spring-boot-cli-installation: https://docs.spring.io/spring-boot/docs/current/reference/html/cli-installation.html
+
+// Pivotal
+:uri-pivotal-cloud-foundry: https://run.pivotal.io/
 
 // This document
 // Source code

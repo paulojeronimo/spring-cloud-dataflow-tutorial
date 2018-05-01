@@ -26,6 +26,8 @@ asciidoctor {
   sources {
     include 'index.adoc'
   }
+  attributes \
+    'source-highlighter': 'coderay'
 }
 
 liveReload {

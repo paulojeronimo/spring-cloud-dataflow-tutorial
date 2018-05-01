@@ -1,0 +1,65 @@
+--- docker-compose.yml.original	2018-05-01 00:35:11.000000000 +0100
++++ docker-compose.yml	2018-05-01 00:44:49.000000000 +0100
+@@ -1,31 +1,38 @@
+ version: '3'
+ 
+ services:
+-  kafka:
+-    image: wurstmeister/kafka:0.10.1.0
++  rabbitmq:
++    image: rabbitmq:3.7
+     expose:
+-      - "9092"
++      - "5672"
++  mysql:
++    image: mariadb:10.2
+     environment:
+-      - KAFKA_ADVERTISED_PORT=9092
+-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+-    depends_on:
+-      - zookeeper
+-  zookeeper:
+-    image: wurstmeister/zookeeper
++      MYSQL_DATABASE: dataflow
++      MYSQL_USER: root
++      MYSQL_ROOT_PASSWORD: rootpw
+     expose:
+-      - "2181"
+-    environment:
+-      - KAFKA_ADVERTISED_HOST_NAME=zookeeper
++      - 3306
++  redis:
++    image: redis:2.8
++    expose:
++      - "6379"
+   dataflow-server:
+     image: springcloud/spring-cloud-dataflow-server-local:1.4.0.RELEASE
+     container_name: dataflow-server
+     ports:
+       - "9393:9393"
+     environment:
+-      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.brokers=kafka:9092
+-      - spring.cloud.dataflow.applicationProperties.stream.spring.cloud.stream.kafka.binder.zkNodes=zookeeper:2181
++      - spring_datasource_url=jdbc:mysql://mysql:3306/dataflow
++      - spring_datasource_username=root
++      - spring_datasource_password=rootpw
++      - spring_datasource_driver-class-name=org.mariadb.jdbc.Driver
++      - spring.cloud.dataflow.applicationProperties.stream.spring.rabbitmq.host=rabbitmq
++      - spring.cloud.dataflow.applicationProperties.stream.spring.redis.host=redis
++      - spring_redis_host=redis
+     depends_on:
+-      - kafka
++      - rabbitmq
++      - mysql
+   app-import:
+     image: alpine:3.7
+     depends_on:
+@@ -36,7 +43,7 @@
+         do
+           sleep 1;
+         done;
+-        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Celsius-SR1-stream-applications-kafka-10-maven&force=true';
++        wget -qO- 'http://dataflow-server:9393/apps' --post-data='uri=http://bit.ly/Celsius-SR1-stream-applications-rabbit-maven&force=true';
+         echo 'Stream apps imported'
+         wget -qO- 'http://dataflow-server:9393/apps'  --post-data='uri=http://bit.ly/Clark-GA-task-applications-maven&force=true';
+         echo 'Task apps imported'"

@@ -1,0 +1,18 @@
+--- pom.xml.original	2018-04-30 23:07:31.000000000 +0100
++++ pom.xml	2018-04-30 23:07:38.000000000 +0100
+@@ -28,10 +28,14 @@
+ 	<dependencies>
+ 		<dependency>
+ 			<groupId>org.springframework.cloud</groupId>
+-			<artifactId>spring-cloud-stream</artifactId>
++			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+ 		</dependency>
+ 
+ 		<dependency>
++			<groupId>org.springframework</groupId>
++			<artifactId>spring-web</artifactId>
++		</dependency>
++		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+ 			<artifactId>spring-boot-starter-test</artifactId>
+ 			<scope>test</scope>

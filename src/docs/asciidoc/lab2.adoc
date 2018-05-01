@@ -1,8 +1,13 @@
 [[lab2]]
-= Lab 2: {lab2-desc}
+= Lab 2: {lab2-title}
 
 By doing this lab, my intention was to discover if it was easy to create an infrastructure prepared to run SCDF in {pivotal-cloud-foundry}.
 Also, one of my goals was to switch from {Kafka} to {RabbitMQ}.
+
+== Prerequisites
+
+. {VirtualBox} installed (PCF Dev uses it).
+. An account on {uri-pivotal-cloud-foundry}[Pivotal Web Services] (do download PCF Dev binary).
 
 == Step 1 - Download and install PCF Dev
 
@@ -321,7 +326,7 @@ dataflow:>
 ----
 
 ----
-dataflow:>app import --uri http://bit.ly/1-0-4-GA-stream-applications-rabbit-maven
+dataflow:>app import --uri http://bit.ly/Celsius-SR1-stream-applications-rabbit-maven
 Successfully registered applications: [sink.task-launcher-yarn, source.tcp, sink.jdbc, source.http, sink.rabbit, source.rabbit, source.ftp, sink.gpfdist, processor.transform, source.loggregator, source.sftp, processor.filter, source.file, sink.cassandra, processor.groovy-filter, sink.router, source.trigger, sink.hdfs-dataset, processor.splitter, source.load-generator, sink.sftp, sink.file, processor.tcp-client, source.time, source.gemfire, source.twitterstream, sink.tcp, source.jdbc, sink.field-value-counter, sink.redis-pubsub, sink.hdfs, sink.task-launcher-local, processor.bridge, processor.pmml, processor.httpclient, sink.ftp, source.s3, sink.log, sink.gemfire, sink.aggregate-counter, sink.throughput, source.triggertask, sink.s3, source.gemfire-cq, source.jms, source.tcp-client, processor.scriptable-transform, sink.counter, sink.websocket, source.mongodb, source.mail, processor.groovy-transform, source.syslog]
 ----
 
@@ -393,12 +398,20 @@ Destroyed stream 'httptest'
 cf dev stop
 ----
 
-== Conclusion
+[[lab2-conclusions]]
+== Conclusions
 
-The steps to run SCDF in {pivotal-cloud-foundry} are simple.
-Also, the shell interface provided by <<spring-cloud-dataflow-shell>> is extremely useful to automate things. This kind of tool is totally required in a DevOps world.
+Positive points: ::
+* The PCF Dev also makes the deployment of SCDF components very simple.
+The `cf` command makes easy, in a development environment, to push new sources, sinks, or processors to the servers.
+* The shell interface provided by <<spring-cloud-dataflow-shell>> is extremely useful to automate things.
+This kind of tool is totally required in a DevOps world.
+* Based on this lab, I can deduce that in a large corporation with {uri-pivotal-cloud-foundry}[Pivotal Cloud Foundry] installed on its servers, SCDF is definitely prepared and integrated with this kind of infrastructure.
+Negative points: ::
+* The time to start PCF Dev on my machine was very slow compared to the time to up Docker containers with Docker compose.
+So, I would recommend the use of Docker in a developer environment instead of PCF Dev.
 
 == References
 
-* <<oA>>
+* {oA}
 * {uri-spring-cloud-dataflow-samples-docs}[Spring Cloud Data Flow Samples Documentation]
