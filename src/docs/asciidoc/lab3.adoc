@@ -1,5 +1,5 @@
 [[lab3]]
-= Lab 3 - {lab3-title}
+= Lab 3: {lab3-title}
 
 By doing this lab I wanted to discover the effort related to a creation of a new processor in a development environment.
 So, if a new processor was easy to create, I could assume that sources and sinks also could be.
