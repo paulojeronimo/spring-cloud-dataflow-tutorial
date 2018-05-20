@@ -1,0 +1,3 @@
+﻿2018-05... INFO 7432 --- [nio-9393-exec-5] o.s.c.d.spi.local.LocalAppDeployer       : Command to be executed: C:\Portable\JDK\jre\bin\java.exe -jar C:\scdf-tutorial\files\log-sink-rabbit-1.3.1.RELEASE.jar
+2018-05... INFO 7432 --- [nio-9393-exec-5] o.s.c.d.spi.local.LocalAppDeployer       : Deploying app with deploymentId httpIngest.log instance 0.
+   Logs will be in C:\Users\user1\AppData\Local\Temp\spring-cloud-deployer-7284336212701312273\httpIngest-1526842618079\httpIngest.log

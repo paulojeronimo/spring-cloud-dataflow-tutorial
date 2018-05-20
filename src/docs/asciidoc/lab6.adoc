@@ -39,10 +39,16 @@ include::{projectdir}/files/spring-shell.log.history[]
 
 == Step 4 - Monitor the stream log
 
-I used the `tail` command in background to monitor the log output with the following command:
+I noticed the following log output on `spring-cloud-dataflow-server-local` window:
 
 ----
-tail -f "C:\Users\user1\AppData\Local\Temp\spring-cloud-deployer-957089279123845790\httpIngest-1525450341957\httpIngest.log/stdout_0.log" &
+include::{projectdir}/files/spring-cloud-dataflow-server-local.log[]
+----
+
+So, I opened Git Bash to run the `tail` command in background and monitor the log output with the following command:
+
+----
+tail -f "C:\Users\user1\AppData\Local\Temp\spring-cloud-deployer-7284336212701312273\httpIngest-1526842618079\httpIngest.log\stdout_0.log" &
 ----
 
 I repeat the `curl` command that I did last lab:
@@ -62,49 +68,65 @@ I noticed an output like this:
 After many steps did by using a command line, I wanted to see some graphical user interface.
 I pointed my brower to the dashboard: http://localhost:9393/dashboard.
 
-By opening the Dashboard we are see the tab `Apps` where we can see all the apps that we registered.
-We can register or unregister applications.
+NOTE: The Microsoft Edge browser had some CSS problems when I opened the dashboard with it. So, I switched to Firefox.
+
+By opening the dashboard I saw the tab `Apps` where I all the apps were registered.
+This tab provides the ability to register or unregister applications.
+
+image::lab6/01.png[]
 
 == Step 6 - Inspecting the tabs
 
-By clicking on a application (like `http`) we can see its properties.
+By clicking on a application (like `http`) I could see its properties:
 
-TODO: insert some pictures here and discuss
+image::lab6/02.png[]
 
-The `Runtime` tab shows ...
+The `Runtime` tab shows the list of all running apps:
 
-TODO: insert some pictures here and discuss
+image::lab6/03.png[]
 
-The `Streams` tab offers the opportunity to ...
+By clicking on the app `httpIngest.log` I also saw the `stdout` path.
 
-TODO: insert some pictures here and discuss
+image::lab6/04.png[]
 
-Let's remove the stream using the UI ...
+The `Streams` tab list all the stream definitions and provides the ability to deploy/deploy or destroy streams:
 
-The `Tasks` tab will be discussed on a next lab (TODO).
+image::lab6/05.png[]
 
-The `Jobs` tab will be discussed on a next lab (TODO).
+I could expand the stream definition:
 
-The most left tab (`About`) is where we can get information about SCDF.
+image::lab6/06.png[]
+
+The `Tasks` tab will be discussed on a next lab.
+
+The `Jobs` tab will be discussed on a next lab.
+
+The most left tab (`About`) is where I could get information about SCDF:
+
+image::lab6/08.png[]
+
+I destroyed the created stream (`httpIngest`) using the UI:
+
+image::lab6/09.png[]
 
 == Step 7 - Backing to the shell
 
-We can check if this was really done by using the shell with the following command:
+I checked if the stream was really destroyed by using the shell with the following command:
 
 ----
-streams list
+stream list
 ----
 
-Now we'll use the shell again to unregister the applications.
-Let's enter the following commands:
+I typed the followed commands to unregister the applications:
 
 ----
-apps list
-apps unregister --type source --name http
-apps unregister --type sink --name log
+app list
+app unregister --type source --name http
+app unregister --type sink --name log
 ----
 
-We will now leave the windows that we open before (`spring-cloud-dataflow-server-local.bat` and `spring-cloud-dataflow-shell.bat`) running.
-So, we'll continue to the next lab.
+Backing to the UI, I could check that I had no registered apps anymore:
 
-== Notes/conclusions
+image::lab6/10.png[]
+
+I left the windows that I opened (`spring-cloud-dataflow-server-local.bat` and `spring-cloud-dataflow-shell.bat`) running in order to continue the next lab.
