@@ -15,6 +15,11 @@
 :maven: {uri-maven}[Maven]
 :sdkman: {uri-sdkman}[SDKMAN]
 :virtualbox: {uri-virtualbox}[VirtualBox]
+:PCFDev: {uri-pcfdev}[PCF Dev]
+:GitForWindowsPortable: {uri-git-download-win}[Git for Windows Portable]
+:GitBash: {uri-gitbash}[Git Bash]
+:jdkPortable: {uri-jdkportable}[jdkPortable]
+:RabbitMQPortable: {uri-rabbitmqportable}[RabbitMQ portable]
 
 // Spring related
 :quick-start-page: {uri-quick-start}[Quick Start page]
@@ -51,3 +56,6 @@
 
 // Other articles links
 :oA: <<oA,"{oA-title}">> (oA)
+
+// Internal attributes
+:scdf-tutorial-windows-dir: C:\scdf-tutorial

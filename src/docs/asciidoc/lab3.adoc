@@ -10,6 +10,7 @@ So, if a new processor was easy to create, I could assume that sources and sinks
 . {SDKMAN} installed.
 . {Maven} installed (in my case, this was done via {SDKMAN}).
 
+[[lab3-step1]]
 == Step 1 - Create a rabbitmq Docker container
 
 I looked for and created a rabbitmq container:

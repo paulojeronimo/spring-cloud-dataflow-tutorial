@@ -20,6 +20,11 @@
 :uri-sdkman: http://sdkman.io/
 :uri-maven: https://maven.apache.org
 :uri-virtualbox: https://www.virtualbox.org/
+:uri-pcfdev: https://pivotal.io/pcf-dev
+:uri-git-download-win: https://git-scm.com/download/win
+:uri-gitbash: https://superuser.com/questions/1053633/what-is-git-bash-for-windows-anyway
+:uri-jdkportable: https://portableapps.com/apps/utilities/jdkportable
+:uri-rabbitmqportable: https://github.com/isindicic/RabbitMqPortable
 
 // Spring
 :uri-spring-cloud-dataflow: https://github.com/spring-cloud/spring-cloud-dataflow

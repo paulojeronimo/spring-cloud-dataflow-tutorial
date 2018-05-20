@@ -1,0 +1,54 @@
+[[lab4]]
+= Lab 4: Setting up a Windows environment to develop with SCDF
+
+In this lab, my intention was to discover if I can easily setup a *Windows 10* development environment (using a non-administrative account (`user1`)) to run SCDF manually (without {Docker} or {PCFDev}).
+
+NOTE: A Window admin account is required in many corporations that obligates their employees to use such environment. So, in this lab, I tried to install the maximum possible quantity of software that would not require me admin rights.
+
+I didn't touch any Java code and in this lab (and in the next three as well).
+That was because I was only reviewing (or fixing or maybe growing) some concepts that I already presented in previous labs.
+But anyway, by creating this labs I reviewed the fundamentals of both technologies from a perspective of a Windows developer.
+
+So, to do the next labs this was my needs:
+
+. A Windows 10 environment.
+. A Bash shell installed on it ({GitBash}).
+. A Java Development Kit (JDK) (>= 1.8).
+. A {RabbitMQ} instance started (it will be used in this state during the next windows labs).
+. A clone (or zip) of the repository that contains this tutorial.
+
+== Prerequisites
+
+A Windows 10 environment which I started from a VMware snapshot.
+
+== GitBash installation
+
+I downloaded and extracted {GitForWindowsPortable} on `C:\Portable\Git`.
+
+== Java Development Kit installation
+
+I downloaded and extracted {jdkPortable} on `C:\Portable\JDK`.
+
+I have setup up the variables `JAVA_HOME` and `PATH` (appending `%JAVA_HOME%\bin` to it).
+
+== RabbitMQ installation
+
+A simple alternative to starting RabbitMQ without needing an administrator account would be download and executing {RabbitMQPortable}.
+I tried to do this.
+But this didn't work in Windows 10 like worked for Windows 7.
+
+In Windows 10 the most rapidly form to leave problems behind was by following the https://www.rabbitmq.com/install-windows.html[installation steps for RabbitMQ].
+This required admin rights. But, to move on without wasting time on other alternatives, this was the simplest solution. When all installation procedures was done, I checked if the RabbitMQ service was running by searching it on windows `services`.
+
+Finally, If I could use {Docker} on Windows, obviously I would use a RabbitMQ container <<lab3-step1,like I did in lab 3>>.
+
+== Download this repository
+
+I just typed the following commands by openning the Git Bash shell:
+
+----
+$ cd /c
+$ git clone https://github.com/paulojeronimo/spring-cloud-dataflow-tutorial scdf-tutorial
+----
+
+This created the repository clone (`{scdf-tutorial-windows-dir`) for me.

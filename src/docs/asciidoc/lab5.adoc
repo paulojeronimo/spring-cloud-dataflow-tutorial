@@ -1,0 +1,85 @@
+[[lab5]]
+= Lab 5: Connecting a source to a sink using Spring Cloud Stream
+
+== Prerequisites
+
+. <<lab4,Lab 4>> executed.
+
+== Step 1 - Download some Spring Cloud Stream Apps
+
+To start this lab my first step was to associate all files with `.sh` extension with `git-bash.exe`.
+
+After that, I clicked on `{scdf-tutorial-windows-dir}\files\get-lab5-jars.sh`.
+
+[NOTE]
+====
+`get-lab5-jars.sh` is a script that I created to download two jars for me with the following commands:
+
+[source,bash]
+----
+include::{projectdir}/files/get-lab5-jars.sh[]
+----
+====
+
+After the download finishes I noticed that the presence of two files (jars) on `{scdf-tutorial-windows-dir}\files`:
+
+. `http-source-rabbit-1.3.1.RELEASE.jar`
+. `log-sink-rabbit-1.3.1.RELEASE.jar`
+
+== Step 2 - Start http-source-rabbit
+
+To open a window that runs the following Java command I clicked `http-source-rabbit.sh`.
+
+----
+include::{projectdir}/files/http-source-rabbit.sh[]
+----
+
+== Step 3 - Start log-sink-rabbit
+
+I also clicked `http-source-rabbit.sh` that opened another windows running the following command:
+
+----
+include::{projectdir}/files/log-sink-rabbit.sh[]
+----
+
+== Step 4 - Send a POST request and get a result
+
+I opened the Git Bash shell and typed the following command:
+
+----
+curl -s -H "Content-Type: application/json" -X POST -d '{"id":"1","temperature":"100"}' http://localhost:8123/data
+----
+
+I noticed the following output on `log-sink-rabbit` window:
+
+----
+2018-05-... WARN 4222 --- [tp.httpIngest-1] log-sink                                 : {"id":"1","temperature":"100"}
+----
+
+I finished the `log-sink-rabbit` execution by pressing kbd:[Ctrl+C] on its window.
+Also, to terminate this lab, I did the same in `http-source-rabbit` window.
+
+== Notes/conclusions
+
+In this lab, I basically review things did behind the scenes by the previous labs.
+There where two microservices that run independently talking to each other through a message broker (RabbitMQ).
+The "channel" used in this conversation (`sensorData`) was passed to the following properties:
+
+. [[http-source-property]] On source (`http-source`): `spring.cloud.stream.bindings.output.destination`.
+. [[log-sink-property]] On sink (`log-sink`): `spring.cloud.stream.bindings.input.destination`.
+
+The name of the "channel" could be anything I want.
+But it needs to be the same for both properties.
+
+The `http-source` is a kind of microservice that produces an output.
+This output is produced when the source receives a POST request in the path `/data`.
+The default implementation os this microservice only pass along the received data to the message broker.
+So the destination of its output is specified by <<http-source-property,this property>>.
+
+The `log-sink` is a kind of microservice that consumes an input.
+In my case, when some input is available on the message broker, it will be consumed (removed from the "channel") and presented in the log output of the microservice.
+So, I must specify to the `log-sink` where the input will be available by configuring <<log-sink-property,this property>>.
+
+Both `http-source` and `log-sink` were Spring Boot applications.
+https://content.pivotal.io/slides/scaling-spring-boot-applications-in-real-time[Spring Boot applications can be scaled up in Real-Time] in many ways.
+So, both `http-source` and `log-sink` can be easily scaled up!
