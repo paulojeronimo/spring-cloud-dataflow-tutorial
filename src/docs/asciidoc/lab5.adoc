@@ -28,18 +28,19 @@ After the download finishes I noticed that the presence of two files (jars) on `
 
 == Step 2 - Start http-source-rabbit
 
-To open a window that runs the following Java command I clicked `http-source-rabbit.sh`.
+To open a window that runs the following Java command, I clicked `http-source-rabbit.bat`.
 
 ----
-include::{projectdir}/files/http-source-rabbit.sh[]
+include::{projectdir}/files/http-source-rabbit.bat[]
 ----
 
 == Step 3 - Start log-sink-rabbit
 
-I also clicked `http-source-rabbit.sh` that opened another windows running the following command:
+I also clicked `log-sink-rabbit.bat`.
+This script opened another window running the following command:
 
 ----
-include::{projectdir}/files/log-sink-rabbit.sh[]
+include::{projectdir}/files/log-sink-rabbit.bat[]
 ----
 
 == Step 4 - Send a POST request and get a result
@@ -50,7 +51,7 @@ I opened the Git Bash shell and typed the following command:
 curl -s -H "Content-Type: application/json" -X POST -d '{"id":"1","temperature":"100"}' http://localhost:8123/data
 ----
 
-I noticed the following output on `log-sink-rabbit` window:
+I noticed some log output on `http-source-rabbit` window and, after that, this output on `log-sink-rabbit` window:
 
 ----
 2018-05-... WARN 4222 --- [tp.httpIngest-1] log-sink                                 : {"id":"1","temperature":"100"}
