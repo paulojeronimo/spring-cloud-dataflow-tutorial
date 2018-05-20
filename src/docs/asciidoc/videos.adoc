@@ -3,6 +3,9 @@
 
 Prior to starting my own labs, I saw some introductory videos (available on YouTube):
 
+* {yF}
 * {yA}
 * {yB}
-* {yC}
+
+These was the first videos that introduce me the basic concepts.
+After that, I also <<all-videos,saw many other videos>> (many times).

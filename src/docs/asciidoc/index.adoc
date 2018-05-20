@@ -5,7 +5,7 @@ Paulo Jerônimo <paulojeronimo@gmail.com>;{localdatetime}
 :imagesdir: images
 
 include::uris.adoc[]
-include::definitions.adoc[]
+include::attributes.adoc[]
 
 :leveloffset: +1
 

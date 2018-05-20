@@ -30,21 +30,21 @@
 
 // YouTube videos titles
 :yA-title: Webinar Data Microservices with Spring Cloud Data Flow
-:yB-title: Spring Cloud Data Flow DEMO
-:yC-title: Orchestrating Data Microservices with Spring Cloud Data Flow - Mark Pollack
-:yD-title: Spring Tips: Spring Cloud Data Flow
-:yE-title: Demo: Spring Cloud Data Flow Shell Tips and Tricks
-:yF-title: 8 min demo: Composed Tasks in Spring Cloud Data Flow 1.2
+:yB-title: Orchestrating Data Microservices with Spring Cloud Data Flow - Mark Pollack
+:yC-title: Spring Tips: Spring Cloud Data Flow
+:yD-title: Demo: Spring Cloud Data Flow Shell Tips and Tricks
+:yE-title: 8 min demo: Composed Tasks in Spring Cloud Data Flow 1.2
+:yF-title: SCDF
 :yG-title: Spring Flo for Spring Cloud Data Flow1.0.0M3
 
 // Video links
-:yA: <<yA,"{yA-title}">> (yA)
-:yB: <<yB,"{yB-title}">> (yB)
-:yC: <<yC,"{yC-title}">> (yC)
-:yD: <<yD,"{yD-title}">> (yD)
-:yE: <<yE,"{yE-title}">> (yE)
-:yF: <<yF,"{yF-title}">> (yF)
-:yG: <<yG,"{yG-title}">> (yG)
+:yA: {uri-ya}[{yA-title}^]
+:yB: {uri-yB}[{yB-title}^]
+:yC: {uri-yC}[{yC-title}^]
+:yD: {uri-yD}[{yD-title}^]
+:yE: {uri-yE}[{yE-title}^]
+:yF: {uri-yf}[{yF-title}^]
+:yG: {uri-yG}[{yG-title}^]
 
 // Other articles titles
 :oA-title: Getting Started with Spring Cloud Data Flow on PCF Dev

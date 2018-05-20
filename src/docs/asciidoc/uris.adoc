@@ -47,3 +47,12 @@
 :uri-generated: .
 :uri-generated-html: {uri-generated}/index.html
 :uri-generated-pdf: {uri-generated}/spring-cloud-dataflow-tutorial.pdf
+
+// Videos
+:uri-ya: https://www.youtube.com/watch?v=Z6_ttC33N0U
+:uri-yb: https://www.youtube.com/watch?v=GqEsgLUwskY
+:uri-yc: https://www.youtube.com/watch?v=GaHgRw-3K84
+:uri-yd: https://www.youtube.com/watch?v=uyN8ttlTvUM
+:uri-ye: https://www.youtube.com/watch?v=KT_4kVcyfRA
+:uri-yf: https://www.youtube.com/watch?v=8cqztXVPy6c
+:uri-yg: https://www.youtube.com/watch?v=78CgV46OstI
