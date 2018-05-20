@@ -24,17 +24,22 @@ So, to do the next labs I needed:
 A Windows 10 environment.
 I started one from a VMware snapshot.
 
-== GitBash installation
+== Step 1 - Creating of user1
+
+I followed the Windows steps to create a new user called `user1` with no admin rights.
+After that, I used this account to do the next steps.
+
+== Step 2 - GitBash installation
 
 I downloaded and extracted {GitForWindowsPortable} on `C:\Portable\Git`.
 
-== Java Development Kit installation
+== Step 3 - Java Development Kit installation
 
 I downloaded and extracted {jdkPortable} on `C:\Portable\JDK`.
 
 I have setup up the variables `JAVA_HOME` and `PATH` (appending `%JAVA_HOME%\bin` to it).
 
-== RabbitMQ installation
+== Step 4 - RabbitMQ installation
 
 A simple alternative to starting RabbitMQ without needing an administrator account would be download and executing {RabbitMQPortable}.
 I tried to do this.
@@ -46,7 +51,7 @@ When all installation procedures was done, I checked if the RabbitMQ service was
 
 Finally, If I could use {Docker} on Windows, obviously I would use a RabbitMQ container <<lab3-step1,like I did in lab 3>>.
 
-== Download this repository
+== Step 5 - Download this repository
 
 I just typed the following commands by openning the Git Bash shell:
 

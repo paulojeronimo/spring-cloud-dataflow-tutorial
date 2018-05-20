@@ -62,8 +62,8 @@ Also, to terminate this lab, I did the same in `http-source-rabbit` window.
 
 == Notes/conclusions
 
-In this lab, I basically review things did behind the scenes by the previous labs.
-There where two microservices that run independently talking to each other through a message broker (RabbitMQ).
+In this lab, I basically review things that were done behind the scenes from the previous labs.
+Two microservices where executed independently talking to each other through a message broker (RabbitMQ).
 The "channel" used in this conversation (`sensorData`) was passed to the following properties:
 
 . [[http-source-property]] On source (`http-source`): `spring.cloud.stream.bindings.output.destination`.
@@ -78,9 +78,9 @@ The default implementation os this microservice only pass along the received dat
 So the destination of its output is specified by <<http-source-property,this property>>.
 
 The `log-sink` is a kind of microservice that consumes an input.
-In my case, when some input is available on the message broker, it will be consumed (removed from the "channel") and presented in the log output of the microservice.
+In this case, when some input is available on the message broker, it will be consumed (removed from the "channel") and presented in the log output of the microservice.
 So, I must specify to the `log-sink` where the input will be available by configuring <<log-sink-property,this property>>.
 
 Both `http-source` and `log-sink` were Spring Boot applications.
 https://content.pivotal.io/slides/scaling-spring-boot-applications-in-real-time[Spring Boot applications can be scaled up in Real-Time] in many ways.
-So, both `http-source` and `log-sink` can be easily scaled up!
+So, `http-source` and `log-sink` can be easily scaled up and, also, independently!

@@ -1,5 +1,5 @@
-app register --type source --name http --uri file://C:/scdf-tutorial/http-source-rabbit-1.3.1.RELEASE.jar
-app register --type sink --name log --uri file://C:/scdf-tutorial/log-sink-rabbit-1.3.1.RELEASE.jar
+app register --type source --name http --uri file://C:/scdf-tutorial/files/http-source-rabbit-1.3.1.RELEASE.jar
+app register --type sink --name log --uri file://C:/scdf-tutorial/files/log-sink-rabbit-1.3.1.RELEASE.jar
 stream create --name httpIngest --definition "http --server.port=8123 --path-pattern=/data | log --level=WARN"
 stream deploy --name httpIngest
 stream list

@@ -1,0 +1,110 @@
+[[lab6]]
+= Lab 6: Using SCDF (server local and shell)
+
+== Prerequisites
+
+. <<lab5,Lab 5>> executed.
+
+== Step 1 - Download Spring Cloud Data Flow jars (server-local and shell)
+
+I clicked on `{scdf-tutorial-windows-dir}\files\get-lab6-jars.sh`.
+This script only executes the following commands to download the two jars needed by this lab:
+
+----
+include::{projectdir}/files/get-lab6-jars.sh[]
+----
+
+== Step 2 - Start Spring Cloud Data Flow (server-local and shell)
+
+I clicked `spring-cloud-dataflow-server-local.bat` to start SCDF local with the following command:
+
+----
+include::{projectdir}/files/spring-cloud-dataflow-server-local.bat[]
+----
+
+After that, I also clicked on `spring-cloud-dataflow-shell.bat`.
+This script started SCDF shell through the following command:
+
+----
+include::{projectdir}/files/spring-cloud-dataflow-shell.bat[]
+----
+
+== Step 3 - Register applications, create and deploy a stream
+
+I typed the following commands on shell:
+
+----
+include::{projectdir}/files/spring-shell.log.history[]
+----
+
+== Step 4 - Monitor the stream log
+
+I used the `tail` command in background to monitor the log output with the following command:
+
+----
+tail -f "C:\Users\user1\AppData\Local\Temp\spring-cloud-deployer-957089279123845790\httpIngest-1525450341957\httpIngest.log/stdout_0.log" &
+----
+
+I repeat the `curl` command that I did last lab:
+
+----
+curl -s -H "Content-Type: application/json" -X POST -d '{"id":"1","temperature":"100"}' http://localhost:8123/data
+----
+
+I noticed an output like this:
+
+----
+2018-05-... WARN 4222 --- [tp.httpIngest-1] log-sink                                 : {"id":"1","temperature":"100"}
+----
+
+== Step 5 - Accessing the Graphical UI Dashboard
+
+After many steps did by using a command line, I wanted to see some graphical user interface.
+I pointed my brower to the dashboard: http://localhost:9393/dashboard.
+
+By opening the Dashboard we are see the tab `Apps` where we can see all the apps that we registered.
+We can register or unregister applications.
+
+== Step 6 - Inspecting the tabs
+
+By clicking on a application (like `http`) we can see its properties.
+
+TODO: insert some pictures here and discuss
+
+The `Runtime` tab shows ...
+
+TODO: insert some pictures here and discuss
+
+The `Streams` tab offers the opportunity to ...
+
+TODO: insert some pictures here and discuss
+
+Let's remove the stream using the UI ...
+
+The `Tasks` tab will be discussed on a next lab (TODO).
+
+The `Jobs` tab will be discussed on a next lab (TODO).
+
+The most left tab (`About`) is where we can get information about SCDF.
+
+== Step 7 - Backing to the shell
+
+We can check if this was really done by using the shell with the following command:
+
+----
+streams list
+----
+
+Now we'll use the shell again to unregister the applications.
+Let's enter the following commands:
+
+----
+apps list
+apps unregister --type source --name http
+apps unregister --type sink --name log
+----
+
+We will now leave the windows that we open before (`spring-cloud-dataflow-server-local.bat` and `spring-cloud-dataflow-shell.bat`) running.
+So, we'll continue to the next lab.
+
+== Notes/conclusions
