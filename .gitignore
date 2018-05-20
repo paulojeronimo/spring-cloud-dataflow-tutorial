@@ -2,3 +2,4 @@
 *.pdf
 .gradle
 /build
+/files/*.jar
