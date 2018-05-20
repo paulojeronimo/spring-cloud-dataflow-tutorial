@@ -35,6 +35,9 @@ include::lab5.adoc[]
 include::lab6.adoc[]
 
 <<<
+include::lab7.adoc[]
+
+<<<
 include::references.adoc[]
 
 :leveloffset: -1

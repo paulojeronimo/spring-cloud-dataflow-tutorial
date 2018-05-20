@@ -1,9 +1,9 @@
 [[lab5]]
-= Lab 5: Connecting a source to a sink using Spring Cloud Stream
+= Lab 5: {lab5-title}
 
 == Prerequisites
 
-. <<lab4,Lab 4>> executed.
+<<lab4,Lab 4>> executed.
 
 == Step 1 - Download some Spring Cloud Stream Apps
 

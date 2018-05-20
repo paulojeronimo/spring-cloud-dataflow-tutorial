@@ -32,6 +32,10 @@
 :lab1-title: Quick Start with Docker
 :lab2-title: Run SCDF in PCF Dev
 :lab3-title: Creating a custom processor application
+:lab4-title: Setting up a Windows environment to develop with SCDF
+:lab5-title: Connecting a source to a sink using Spring Cloud Stream
+:lab6-title: Manually using SCDF (server local/shell)
+:lab7-title: Importing existing sources, sinks, processors and tasks to SCDF
 
 // YouTube videos titles
 :yA-title: Webinar Data Microservices with Spring Cloud Data Flow

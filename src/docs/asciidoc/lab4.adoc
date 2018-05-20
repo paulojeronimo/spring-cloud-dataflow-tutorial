@@ -1,5 +1,5 @@
 [[lab4]]
-= Lab 4: Setting up a Windows environment to develop with SCDF
+= Lab 4: {lab4-title}
 
 In this lab, my intention was to discover if I can easily setup a *Windows 10* development environment
 (using a non-administrative account (`user1`)) to run SCDF manually (without {Docker} or {PCFDev}).

@@ -1,9 +1,9 @@
 [[lab6]]
-= Lab 6: Using SCDF (server local and shell)
+= Lab 6: {lab6-title}
 
 == Prerequisites
 
-. <<lab5,Lab 5>> executed.
+<<lab5,Lab 5>> executed.
 
 == Step 1 - Download Spring Cloud Data Flow jars (server-local and shell)
 

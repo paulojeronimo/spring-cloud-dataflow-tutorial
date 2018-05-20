@@ -4,7 +4,7 @@
 Recently I had work to produce a document with a comparison between two tools for Cloud Data Flow.
 I didn't have any knowledge of this kind of technology before creating this document.
 {spring-cloud-dataflow} (SCDF) is one of the tools in my comparison document.
-So, here I describe my own procedures to learn about SCDF and take my own preliminary conclusions (<<lab1-conclusions,1>>, <<lab2-conclusions,2>>, <<lab3-conclusions,3>>).
+So, here I describe my own procedures to learn about SCDF and take my own preliminary conclusions.
 I followed many steps on my own desktop (a MacBook Pro computer) to accomplish this task.
 This document shows you what I did.
 
@@ -15,6 +15,10 @@ Basically, to learn about SCDF in order to do a comparison with other tool:
 ** <<lab1,{lab1-title}>>
 ** <<lab2,{lab2-title}>>
 ** <<lab3,{lab3-title}>>
+** <<lab4,{lab4-title}>>
+** <<lab5,{lab5-title}>>
+** <<lab6,{lab6-title}>>
+** <<lab7,{lab7-title}>>
 
 In these labs, I only used command line tools.
 This approach was very simple for me because I have to much experience in tools like Bash and GNU commands.
